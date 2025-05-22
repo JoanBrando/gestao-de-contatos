@@ -1,15 +1,22 @@
-const apiBase = "http://localhost:8080/api/contatos"; 
+const apiBase = "http://localhost:8080/api/contatos";
 
 // Carrega todos os contatos
 async function carregarContatos() {
-  const resposta = await fetch(apiBase);
-  const contatos = await resposta.json();
-  renderizarTabela(contatos);
+  try {
+    const resposta = await fetch(apiBase);
+    if (!resposta.ok) {
+      throw new Error("Erro ao carregar contatos.");
+    }
+    const contatos = await resposta.json();
+    renderizarTabela(contatos);
+  } catch (error) {
+    console.error("Erro:", error.message);
+  }
 }
 
 // Renderiza a tabela de contatos
 function renderizarTabela(contatos) {
-  const tbody = document.querySelector("#tabela-contatos tbody");
+  const tbody = document.querySelector("#tabela-contatos");
   tbody.innerHTML = "";
 
   contatos.forEach(contato => {
@@ -31,7 +38,7 @@ function renderizarTabela(contatos) {
 
 // Redireciona para a tela de edição
 function editarContato(id) {
-  window.location.href = `cadastro.html?id=${id}`;
+  window.location.href = `cadastrar.html?id=${id}`;
 }
 
 // Exclui um contato
@@ -53,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       carregarContatos();
     } else {
       const resposta = await fetch(`${apiBase}/pesquisar?termo=${encodeURIComponent(termo)}`);
-      const contatos = await resposta.ok ? await resposta.json() : [];
+      const contatos = resposta.ok ? await resposta.json() : [];
       renderizarTabela(contatos);
     }
   });
@@ -61,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnNovo = document.getElementById("btn-novo");
   if (btnNovo) {
     btnNovo.addEventListener("click", () => {
-      window.location.href = "cadastro.html";
+      window.location.href = "cadastrar.html";
     });
   }
 });

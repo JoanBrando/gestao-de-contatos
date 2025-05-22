@@ -11,4 +11,8 @@ public class GestaoDeContatosApplication {
 		SpringApplication.run(GestaoDeContatosApplication.class, args);
 	}
 
+	public String olamundo(){
+		return "Olá Mundo";
+	}
+
 }

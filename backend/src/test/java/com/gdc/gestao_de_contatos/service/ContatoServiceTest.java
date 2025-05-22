@@ -50,7 +50,7 @@ class ContatoServiceTest {
         // Verifica se o retorno não é nulo
         assertNotNull(salvo); // Assert 1
         // Verifica se o nome do contato salvo está correto
-        assertEquals("João Silva", salvo.getNome()); // Assert 2
+        assertEquals("João  ", salvo.getNome()); // Assert 2
         // Verifica se o método save foi chamado uma vez
         verify(contatoRepository, times(1)).save(contato); // Assert 3
     }
